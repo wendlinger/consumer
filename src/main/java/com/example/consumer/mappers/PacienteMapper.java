@@ -3,29 +3,20 @@ package com.example.consumer.mappers;
 import com.example.consumer.model.dto.PacienteDTO;
 import com.example.consumer.model.entity.PacienteEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
 
-@Mapper
-public class PacienteMapper implements EntityMapper<PacienteDTO, PacienteEntity> {
+@Mapper(componentModel = "spring")
+public interface PacienteMapper {
 
-    @Override
-    public PacienteDTO toDTO(PacienteEntity entity) {
-        return null;
-    }
+    PacienteDTO toDTO(PacienteEntity entity);
 
-    @Override
-    public List<PacienteDTO> toListDTO(List<PacienteEntity> dtoList) {
-        return List.of();
-    }
+    List<PacienteDTO> toListDTO(List<PacienteEntity> dtoList);
 
-    @Override
-    public PacienteEntity toEntity(PacienteDTO dto) {
-        return null;
-    }
+    @Mapping(target = "codigo", ignore = true)
+    PacienteEntity toEntity(PacienteDTO dto);
 
-    @Override
-    public List<PacienteEntity> toListEntity(List<PacienteDTO> entityList) {
-        return List.of();
-    }
+    @Mapping(target = "codigo", ignore = true)
+    List<PacienteEntity> toListEntity(List<PacienteDTO> entityList);
 }

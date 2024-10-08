@@ -5,14 +5,14 @@ import com.example.consumer.mappers.PacienteMapper;
 import com.example.consumer.model.dto.PacienteDTO;
 import com.example.consumer.model.entity.PacienteEntity;
 import com.example.consumer.repository.PacienteRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PacienteService {
 
     private final PacienteRepository repository;

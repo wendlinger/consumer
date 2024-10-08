@@ -1,9 +1,6 @@
 package com.example.consumer.model.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
@@ -12,13 +9,17 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
+@Entity
 @Table(schema = "CONSUMER", name = "PACIENTE")
 @AllArgsConstructor
 @NoArgsConstructor
-public class PacienteEntity {
+public class PacienteEntity implements Serializable {
+
+    private static final long serialVersionUID = -4669685425460097723L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +33,7 @@ public class PacienteEntity {
     private String cpf;
 
     @NotNull(message = "A data de nascimento não pode ser nula")
-    @Past(message = "A data de nascimento deve ser uma data passada")
+    @Past(message = "A data de nascimento deve ser uma data aterior")
     private LocalDate dataNascimento;
 
 }

@@ -11,7 +11,6 @@ import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
-import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
@@ -21,24 +20,24 @@ import java.io.StringWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static com.example.consumer.util.ConfigKafkaUtil.PACIENTE_RESPONSE_TOPIC;
-
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class ProtocolTopicConsumer {
-    @Value("${kafka.maxAttempt}")
+    @Value("${spring.kafka.maxAttempt}")
     private int maxAttempts;
-    @Value("${kafka.waitingTime}")
+    @Value("${spring.kafka.waitingTime}")
     private int waitingTime;
     private int attempts = 0;
 
     private final PacienteService pacienteService;
     private final ErrorRetryRepository errorRetryRepository;
 
-    @KafkaListener(topics = PACIENTE_RESPONSE_TOPIC, containerFactory = "kafkaProtocolListenerContainerFactory")
-    public void consume(Message<PacienteDTO> message, final Acknowledgment ack) {
-        PacienteDTO paciente = message.getPayload();
+    @KafkaListener(topics = "${broker.topic-id}",
+            groupId = "${broker.group-id}",
+            containerFactory = "kafkaListenerContainerFactory")
+    public void consume(PacienteDTO pacienteDTO, final Acknowledgment ack) {
+        PacienteDTO paciente = pacienteDTO;
         log.info("Start consume PACIENTE_RESPONSE_TOPIC Paciente={}", paciente.getNome());
         try {
             pacienteService.save(paciente);
