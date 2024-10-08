@@ -20,6 +20,8 @@ import java.io.StringWriter;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
+import static com.example.consumer.util.ConfigKafkaUtil.*;
+
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -33,8 +35,8 @@ public class ProtocolTopicConsumer {
     private final PacienteService pacienteService;
     private final ErrorRetryRepository errorRetryRepository;
 
-    @KafkaListener(topics = "${broker.topic-id}",
-            groupId = "${broker.group-id}",
+    @KafkaListener(topics = TOPIC,
+            groupId = GROUP_ID,
             containerFactory = "kafkaListenerContainerFactory")
     public void consume(PacienteDTO pacienteDTO, final Acknowledgment ack) {
         PacienteDTO paciente = pacienteDTO;
